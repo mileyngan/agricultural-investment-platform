@@ -1,0 +1,191 @@
+/* global.css */
+
+/* Colors */
+:root {
+  --primary-color: #34C759; /* Green (Agriculture) */
+  --secondary-color: #FFC107; /* Orange (Investment) */
+  --tertiary-color: #2196F3; /* Blue (Marketplace) */
+  --background-color: #F7F7F7;
+  --text-color: #333;
+  --sidebar-background-color: #2F4F7F;
+  --sidebar-text-color: #FFF;
+}
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: var(--sidebar-background-color);
+  color: var(--sidebar-text-color);
+  padding: 20px;
+  width: 250px;
+  transition: width 0.5s;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  color: var(--sidebar-text-color);
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: var(--primary-color);
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.user-profile h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.user-profile a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.user-profile a:hover {
+  color: var(--tertiary-color);
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: #FFF;
+}
+
+.app-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.toggle-sidebar {
+  background-color: var(--primary-color);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.toggle-sidebar i {
+  color: #FFF;
+}
+
+.marketplace-btn {
+  background-color: var(--tertiary-color);
+  color: #FFF;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.marketplace-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Dashboard-specific styles */
+.dashboard {
+  background-color: var(--primary-color);
+  color: #FFF;
+  padding: 20px;
+}
+
+.dashboard h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+/* Investment-specific styles */
+.investment {
+  background-color: var(--secondary-color);
+  color: #FFF;
+  padding: 20px;
+}
+
+.investment h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+/* Marketplace-specific styles */
+.marketplace {
+  background-color: var(--tertiary-color);
+  color: #FFF;
+  padding: 20px;
+}
+
+.marketplace h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+.app-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.app-nav li {
+  margin-right: 20px;
+}
+
+.app-nav a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.app-nav a:hover {
+  color: var(--primary-color);
+}

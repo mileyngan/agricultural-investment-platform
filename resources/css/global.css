@@ -1,0 +1,128 @@
+/* Global Styles
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/Inter-Regular.woff2') format('woff2');
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f5f5dc; 
+  }
+  
+  
+  .primary-color {
+    color: #8B9467; 
+  }
+  
+  .secondary-color {
+    color: #F7DC6F; 
+  }
+  
+  .tertiary-color {
+    color: #3E8E41; 
+  }
+  
+
+  .app-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .sidebar.collapsed {
+    width: 50px;
+  }
+  
+  .sidebar .user-profile {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar .profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar .user-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar .edit-profile {
+    font-size: 14px;
+    color: #337ab7;
+    text-decoration: none;
+  }
+  
+  .sidebar .edit-profile:hover {
+    color: #23527c;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-menu li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-menu a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .sidebar-menu a:hover {
+    color: #337ab7;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .app-header {
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .app-header .app-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .toggle-sidebar {
+    background-color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .toggle-sidebar:hover {
+    background-color: #f5f5dc;
+  }
+  
+  .toggle-sidebar:focus {
+    outline: none;
+  } */

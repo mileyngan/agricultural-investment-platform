@@ -1,44 +1,64 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-        <!-- Styles -->
-        @livewireStyles
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wom Invest</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                @if (Auth::check())
+                    @if (Auth::user() !== null)
+                        @if (Auth::user()->role === 'investor')
+                            <li><a href="{{ route('investor.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('investor.search') }}">Search Projects</a></li>
+                            <li><a href="{{ route('investor.wallet') }}">Manage Wallet</a></li>
+                        @elseif (Auth::user()->role === 'firm')
+                            <li><a href="{{ route('firm.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('firm.create_project') }}">Create Project</a></li>
+                        @elseif (Auth::user()->role === 'admin')
+                            <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('admin.manage_projects') }}">Manage Projects</a></li>
+                            <li><a href="{{ route('admin.manage_users') }}">Manage Users</a></li>
+                        @endif
+                        <li><a href="#" class="marketplace-btn">Marketplace</a></li>
+                        <li>
+    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        Logout
+    </a>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+</li>
+                    @endif
+                @else
+                <!-- <li><a href="#" class="marketplace-btn">Marketplace</a></li> -->
+                @endif
+            </ul>
+        </nav>
+    </header>
+    <main>
+        @yield('content')
+    </main>
+    
+    <footer>
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     </head>
-    <body class="font-sans antialiased">
-        <x-jet-banner />
+        <p>&copy; 2023 Wom Invest</p>
+    </footer>
+    <script src="{{ asset('js/toastr.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+    
+</script>
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+    <!-- Include JavaScript files -->
+    @yield('scripts')
+</body>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-
-        @stack('modals')
-
-        @livewireScripts
-    </body>
 </html>
