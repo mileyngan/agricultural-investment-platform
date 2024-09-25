@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Wom Invest</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
 </head>
 <body>
@@ -46,12 +47,13 @@
         @yield('content')
     </main>
     
-    <footer>
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
-    </head>
+</head>
+    <!-- <footer>
         <p>&copy; 2023 Wom Invest</p>
-    </footer>
+    </footer> -->
     <script src="{{ asset('js/toastr.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
     
