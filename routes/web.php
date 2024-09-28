@@ -45,7 +45,7 @@ Route::middleware(['auth', 'role:investor'])->group(function () {
 Route::middleware(['auth', 'role:firm'])->group(function () {
     Route::get('/firm/dashboard', [FirmController::class, 'dashboard'])->name('firm.dashboard');
     Route::get('/firm/project/create', [FirmController::class, 'createProject'])->name('firm.create_project');
-    Route::get('/firm/projects', [FirmController::class, 'projects'])->name('firm.projects');
+    Route::get('/firm/projects      ', [FirmController::class, 'projects'])->name('firm.projects');
     Route::get('/firm/project/{project}', [FirmController::class, 'showProject'])->name('firm.show_project');
     Route::get('/firm/project/{project}/edit', [FirmController::class, 'editProject'])->name('firm.edit_project');
     Route::put('/firm/project/{project}', [FirmController::class, 'updateProject'])->name('firm.update_project');

@@ -43,15 +43,22 @@ class FirmController extends Controller
 
     public function projects()
     {
-            $firm = optional(auth()->user())->firm;
+            // $firm = optional(auth()->user())->firm;
         
-            if (!$firm) {
-                // Handle user without firm
-                return redirect()->route('firm.create');
+            // if (!$firm) {
+            //     // Handle user without firm
+            //     return redirect()->route('firm.create');
+            // }
+            if (Auth::check()){
+             if (Auth::user() !== null){
+                $firm = Auth::user()->firm;
+
+                $projects = Project::where('firm_id', $firm->id)->get();
+                return view('firm.projects', compact('projects'));
             }
-        
-            $projects = Project::where('firm_id', $firm->id)->get();
-            return view('firm.projects', compact('projects'));
+            return redirect()->route('firm.create');
+        }
+            
     }
 
     public function editProject(Project $project)
