@@ -1,6 +1,10 @@
 <!-- manage.blade.php -->
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('content')
 <h1>Manage Firms</h1>
 

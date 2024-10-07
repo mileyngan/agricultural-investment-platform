@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable; 
 
     protected $fillable = [
         'name',
@@ -38,7 +38,6 @@ class User extends Authenticatable
 
     public function projects()
     {
-        // A firm can have many projects
         return $this->hasMany(Project::class);
     }
 
@@ -66,5 +65,14 @@ class User extends Authenticatable
         } else {
             return 'investor';
         }
+    }
+
+    public function routeNotificationFor($channel)
+    {
+        if ($channel === 'mail') {
+            return $this->email; // Return the email for the mail channel
+        }
+
+        return null; // Return null if channel is not handled
     }
 }

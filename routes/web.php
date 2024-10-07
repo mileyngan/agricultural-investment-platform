@@ -9,6 +9,10 @@ use App\Http\Controllers\FirmController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReportController;
+use Illuminate\Http\Request;
+
 
 // Route::get('/', 'LandingController@index');
 Route ::get('/', [LandingController::class, 'index'])->name('welcome');
@@ -16,6 +20,9 @@ Route ::get('/', [LandingController::class, 'index'])->name('welcome');
 Route::get('/login', [AuthenticatedSessionController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'login']);
 Route::get('/register', [RegisteredUserController::class, 'showRegistrationForm'])->name('register');
+// Route::post('/register', function (Illuminate\Http\Request $request) {
+//     dd($request->all());
+// });
 Route::post('/register', [RegisteredUserController::class, 'register']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
 
@@ -24,6 +31,9 @@ Route::get('/firm', [FirmController::class, 'index'])->name('firm');
 Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/firm/create/{id}', [FirmController::class, 'create'])->name('firm.create');
+
+Route::get('/projects/{id}/advancement', [ProjectController::class, 'advancement'])->name('projects.advancement');
+Route::post('/reports/upload/{projectId}', [ReportController::class, 'upload'])->name('reports.upload');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -43,8 +53,12 @@ Route::middleware(['auth', 'role:investor'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:firm'])->group(function () {
+    Route::post('/firm/store', [FirmController::class, 'store'])->name('firm.store');
     Route::get('/firm/dashboard', [FirmController::class, 'dashboard'])->name('firm.dashboard');
     Route::get('/firm/project/create', [FirmController::class, 'createProject'])->name('firm.create_project');
+    Route::post('/firm/project/store', [FirmController::class, 'storeProject'])->name('firm.store_project');
+    Route::get('/firm/create', [FirmController::class, 'create'])->name('firms.create');
+    Route::post('/firms/store', [FirmController::class, 'store'])->name('firms.store');
     Route::get('/firm/projects      ', [FirmController::class, 'projects'])->name('firm.projects');
     Route::get('/firm/project/{project}', [FirmController::class, 'showProject'])->name('firm.show_project');
     Route::get('/firm/project/{project}/edit', [FirmController::class, 'editProject'])->name('firm.edit_project');

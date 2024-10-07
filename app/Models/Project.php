@@ -33,4 +33,9 @@ class Project extends Model
     {
         return $this->hasMany(Investment::class);
     }
+
+    public function reports()
+{
+    return $this->hasMany(ProjectReport::class); 
+}
 }

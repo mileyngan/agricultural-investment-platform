@@ -1,54 +1,81 @@
-<!-- resources/views/investor/dashboard.blade.php -->
-
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('content')
-    <div class=" container">
-        <div class="sidebar">
-            <div class="profile">
-                <img src="{{ asset('profile_picture.jpg') }}" alt="Profile Picture">
-                <h4>{{ Auth::user()->name }}</h4>
-                <a href="{{ route('profile') }}">Update Profile</a>
-        </div>
-            <ul>
-                <li><a href="{{ route('investor.dashboard') }}">Your Investments</a></li>
-            </ul>
-        </div>
-        <div class="main-body">
-            <h2>Investor Dashboard</h2>
-            <div class="dashboard-stats">
-                <div class="stat-box">
-                    <h3>Wallet Balance</h3>
-                    @if (Auth::check())
-                        @if (Auth::user() !== null)
-                            <p>Balance: {{ Auth::user()->balance }}</p>
-                        @endif
-                    @endif
-                </div>
-                <div class="stat-box">
-                    <h3>Active Projects</h3>
-                    <p>{{ $activeProjects }}</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Your Dashboard</h2>
+        {{-- User-specific actions can be added here, e.g., notifications --}}
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="card-title">Wallet Balance</h3>
+                    <p class="card-text display-4 text-primary">
+                        {{ number_format(Auth::user()->wallet->balance ?? 0, 2) }} FCFA
+                    </p>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="card-title">Active Projects</h3>
+                    <p class="card-text display-4 text-success">{{ $activeProjects }}</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- More dashboard stat cards can be added here --}}
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
             <h3>Your Investments</h3>
-            <table class="investment-table">
-                <thead>
-                    <tr>
-                        <th>Project</th>
-                        <th>Amount Invested</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($investments as $investment)
-                    <tr>
-                        <td>{{ $investment->project->title }}</td>
-                        <td>${{ number_format($investment->amount, 2) }}</td>
-                        <td>{{ ucfirst($investment->project->status) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        </div>
+        <div class="card-body">
+            @if($investments->isEmpty())
+                <p class="text-center">You have no investments yet.</p>
+            @else
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Amount Invested</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($investments as $investment)
+                            <tr>
+                                <td>{{ $investment->project->title }}</td>
+                                <td>${{ number_format($investment->amount, 2) }}</td>
+                                <td>
+                                    @switch($investment->project->status)
+                                        @case('pending')
+                                            <span class="badge badge-warning">Pending</span>
+                                            @break
+                                        @case('active')
+                                            <span class="badge badge-success">Active</span>
+                                            @break
+                                        @default
+                                            <span class="badge badge-secondary">{{ ucfirst($investment->project->status) }}</span>
+                                    @endswitch
+                                </td>
+                                <td>
+                                    <a href="{{ route('projects.advancement', $investment->project->id) }}" class="btn btn-info btn-sm">View Advancement</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
 @endsection

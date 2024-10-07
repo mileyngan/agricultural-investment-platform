@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Investment; 
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -12,15 +13,34 @@ class AdminController extends Controller
     {
         $totalUsers = User::count();
         $totalProjects = Project::count();
-        $totalInvestments = Project::sum('current_amount');
-        return view('admin.dashboard', compact('totalUsers', 'totalProjects', 'totalInvestments'));
+        $totalInvestments = Investment::sum('current_amount'); 
+    
+        
+        $investments = Investment::with('project')->get(); 
+    
+        return view('admin.dashboard', compact('totalUsers', 'totalProjects', 'totalInvestments', 'investments'));
     }
-
     public function manageProjects()
     {
         $projects = Project::with('user')->paginate(10);
         return view('admin.manage_projects', compact('projects'));
     }
+
+    // public function approveProject(Project $project)
+    // {
+    //     $project->status = 'active'; // Change status to active
+    //     $project->save();
+
+    //     return redirect()->route('admin.manage_projects')->with('success', 'Project approved successfully!');
+    // }
+
+    // public function rejectProject(Project $project)
+    // {
+    //     $project->status = 'rejected'; // Change status to rejected
+    //     $project->save();
+
+    //     return redirect()->route('admin.manage_projects')->with('success', 'Project rejected successfully!');
+    // }
 
     public function manageUsers()
     {

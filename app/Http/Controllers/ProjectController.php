@@ -38,5 +38,10 @@ class ProjectController extends Controller
         return redirect()->route('projects.show', $project)->with('success', 'Project created successfully.');
     }
 
+     public function advancement($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('projects.advancement', compact('project'));
+    }
 
 }

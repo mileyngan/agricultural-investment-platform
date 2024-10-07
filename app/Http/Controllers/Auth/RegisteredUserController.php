@@ -25,51 +25,83 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    /**
+     * Handle the registration process.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+ 
+
+     public function register(Request $request)
+     {
+         $validator = Validator::make($request->all(), [
+             'name' => 'required|string',
+             'email' => 'required|email|unique:users',
+             'password' => 'required|string|min:8|confirmed',
+             'password_confirmation' => 'required|string|min:8',
+             'type' => ['required', 'in:'.AccountType::INDIVIDUAL.','.AccountType::FIRM],
+         ]);
+         
+         if ($validator->fails()) {
+             return back()->withErrors($validator)->withInput();
+         }
+         
+         // Create a new user based on the account type
+         if ($request->input('type') === AccountType::INDIVIDUAL) {
+             return $this->createIndividualUser ($request->all());
+         } elseif ($request->input('type') === AccountType::FIRM) {
+             return $this->createFirmUser ($request->all());
+         }
+     }
+    /**
+     * Create a new individual user.
+     *
+     * @param  array  $validatedData
+     * @return void
+     */
+    private function createIndividualUser(array $validatedData)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required|string|min:8',
-            'type' => ['required', 'in:'.AccountType::INDIVIDUAL.','.AccountType::FIRM],
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'role' => 'investor',
         ]);
 
-        if ($validatedData['type'] === AccountType::INDIVIDUAL) {
-            // Create individual user and redirect to investor dashboard
-            $user = User::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'password' => bcrypt($validatedData['password']),
-                'role' => 'investor',
-            ]);
+        Wallet::create([
+            'user_id' => $user->id,
+            'balance' => 0,
+        ]);
 
-            Wallet::create([
-                'user_id' => $user->id,
-                'balance' => 0,
-            ]);
+        Auth::login($user);
 
-            Auth::login($user);
+        return redirect()->route('investor.dashboard');
+    }
 
-            return redirect()->route('investor.dashboard');
-        } elseif ($validatedData['type'] === AccountType::FIRM) {
-            // Create firm user and redirect to firm information form
-            $user = User::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'password' => bcrypt($validatedData['password']),
-                'role' => 'firm',
-                'firm_pending' => true, // Flag to indicate firm information is pending
-            ]);
+    /**
+     * Create a new firm user.
+     *
+     * @param  array  $validatedData
+     * @return void
+     */
+    private function createFirmUser(array $validatedData)
+    {
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'role' => 'firm',
+            'firm_pending' => true, // Flag to indicate firm information is pending
+        ]);
 
-            Wallet::create([
-                'user_id' => $user->id,
-                'balance' => 0,
-            ]);
+        Wallet::create([
+            'user_id' => $user->id,
+            'balance' => 0,
+        ]);
 
-            Auth::login($user);
+        Auth::login($user);
 
-            return redirect()->route('firm.create', $user->id);
-        }
+        return redirect()->route('firm.create', $user->id);
     }
 }

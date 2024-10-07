@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('content')
 <div class="container">
     <h2>Manage Wallet</h2>
@@ -28,10 +32,10 @@
     <div class="wallet-balance">
         <h1 style="color:white">Current Balance</h1>
         <h3 style="color:white">
-            @if (Auth::check())
-                @if (Auth::user() !== null)
-                    <p>Balance: {{ Auth::user()->wallet->balance }} FCFA</p>
-                @endif
+            @if (Auth::check() && Auth::user()->wallet)
+                <p>Balance: {{ number_format(Auth::user()->wallet->balance, 2) }} FCFA</p>
+            @else
+                <p>Balance: 0.00 FCFA</p>
             @endif
         </h3>
     </div>

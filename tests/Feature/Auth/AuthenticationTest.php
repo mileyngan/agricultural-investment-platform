@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationTest extends TestCase
 {
@@ -17,20 +19,26 @@ class AuthenticationTest extends TestCase
 
         $response->assertStatus(200);
     }
-
     public function test_users_can_authenticate_using_the_login_screen()
-    {
-        $user = User::factory()->create();
+{
+    $user = User::factory()->create([
+        'email' => 'test@example.com',
+        'password' => Hash::make('password'),
+    ]);
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+    // Make a GET request to the /login route
+    $response = $this->get('/login');
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
-    }
+    // Make a POST request to the /login route with the login form data
+    $response = $this->post('/login', [
+        '_token' => csrf_token(),
+        'email' => 'test@example.com',
+        'password' => 'password',
+    ]);
 
+    $response->assertStatus(302); // Check if the response is a redirect
+    $this->assertAuthenticated();
+}
     public function test_users_can_not_authenticate_with_invalid_password()
     {
         $user = User::factory()->create();

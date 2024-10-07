@@ -1,47 +1,39 @@
-/* global.css */
-
-/* Colors */
-:root {
-  --primary-color: #34C759; /* Green (Agriculture) */
-  --secondary-color: #FFC107; /* Orange (Investment) */
-  --tertiary-color: #2196F3; /* Blue (Marketplace) */
-  --background-color: #F7F7F7;
-  --text-color: #333;
-  --sidebar-background-color: #2F4F7F;
-  --sidebar-text-color: #FFF;
-}
-
-/* Global Styles */
+/* Global Styles
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8; 
   margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  color: #333;
 }
 
-.app-container {
+.container {
   display: flex;
-  flex-direction: row;
-  height: 100vh;
+  min-height: 100vh;
 }
+
 
 .sidebar {
-  background-color: var(--sidebar-background-color);
-  color: var(--sidebar-text-color);
-  padding: 20px;
+  background-color: #fff;
   width: 250px;
-  transition: width 0.5s;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar.collapsed {
-  width: 50px;
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .sidebar li {
@@ -49,143 +41,68 @@ body {
 }
 
 .sidebar a {
-  color: var(--sidebar-text-color);
+  display: block;
+  padding: 10px;
   text-decoration: none;
+  color: #555;
+  border-radius: 5px;
 }
 
 .sidebar a:hover {
-  color: var(--primary-color);
+  background-color: #f0f5f9;
 }
 
-.user-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
 
-.user-profile img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
-.user-profile h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.user-profile a {
-  color: var(--secondary-color);
-  text-decoration: none;
-}
-
-.user-profile a:hover {
-  color: var(--tertiary-color);
-}
-
-.main-content {
+.main-body {
   flex: 1;
   padding: 20px;
 }
 
-.app-header {
+h2 {
+  color: #2980b9; 
+}
+
+
+.dashboard-stats {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background-color: #fff;
   padding: 20px;
-  background-color: var(--primary-color);
-  color: #FFF;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  flex: 1; 
+  margin: 0 10px; 
+  text-align: center;
 }
 
-.app-header h1 {
-  font-size: 24px;
-  margin: 0;
+.stat-box h3 {
+  margin-top: 0;
+  color: #666;
 }
 
-.toggle-sidebar {
-  background-color: var(--primary-color);
-  border: none;
-  padding: 10px;
-  cursor: pointer;
+
+.investment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.toggle-sidebar i {
-  color: #FFF;
+.investment-table th, 
+.investment-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
 }
 
-.marketplace-btn {
-  background-color: var(--tertiary-color);
-  color: #FFF;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.investment-table th {
+  background-color: #f0f5f9;
+  color: #555;
 }
 
-.marketplace-btn:hover {
-  background-color: var(--secondary-color);
-}
-
-/* Dashboard-specific styles */
-.dashboard {
-  background-color: var(--primary-color);
-  color: #FFF;
-  padding: 20px;
-}
-
-.dashboard h1 {
-  font-size: 36px;
-  margin: 0;
-}
-
-/* Investment-specific styles */
-.investment {
-  background-color: var(--secondary-color);
-  color: #FFF;
-  padding: 20px;
-}
-
-.investment h1 {
-  font-size: 36px;
-  margin: 0;
-}
-
-/* Marketplace-specific styles */
-.marketplace {
-  background-color: var(--tertiary-color);
-  color: #FFF;
-  padding: 20px;
-}
-
-.marketplace h1 {
-  font-size: 36px;
-  margin: 0;
-}
-
-.app-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.app-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
-.app-nav li {
-  margin-right: 20px;
-}
-
-.app-nav a {
-  color: #FFF;
-  text-decoration: none;
-}
-
-.app-nav a:hover {
-  color: var(--primary-color);
-}
+.investment-table td {
+  color: #666;
+} */

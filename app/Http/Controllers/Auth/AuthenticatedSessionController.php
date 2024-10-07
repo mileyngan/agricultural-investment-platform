@@ -47,30 +47,28 @@ class AuthenticatedSessionController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        
-
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-
-        // Use the CheckRole middleware to determine the user's role
-        $role = $user->hasRole();
-
-        // Redirect based on the user's role
-        switch ($role) {
-            case 'admin':
-                return redirect()->route('admin.dashboard');
-            case 'firm':
-                return redirect()->route('firm.dashboard');
-            default:
-                return redirect()->route('investor.dashboard');
+    
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+    
+            // Use the CheckRole middleware to determine the user's role
+            $role = $user->hasRole();
+    
+            // Redirect based on the user's role
+            switch ($role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'firm':
+                    return redirect()->route('firm.dashboard');
+                default:
+                    return redirect()->route('investor.dashboard');
+            }
         }
+    
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
     }
-
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ]);
-}
 
     /**
      * Log the user out of the application.

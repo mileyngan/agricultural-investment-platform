@@ -34,39 +34,52 @@ class InvestorController extends Controller
 
     public function showProject($id)
     {
-        // Logic to show the project with the given ID
-        $project = Project::find($id);
+        // Eager load related investments to avoid N+1 query issues
+        $project = Project::with('investments.user')->findOrFail($id);
         return view('investor.project', compact('project'));
     }
 
     public function invest(Request $request, Project $project)
     {
-    // dd($request);
-    $amount = $request->input('amount');
-    $user = Auth::user();
+        // Validate the request
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+        ]);
 
-    if (!$user->wallet) {
-        return back()->with('error', 'You do not have a wallet associated with your account.');
-    }
+        $amount = $request->input('amount');
+        $user = Auth::user();
 
-    if ($user->wallet->balance < $amount) {
-        return back()->with('error', 'Insufficient funds in your wallet.');
-    }
+        // Check if the user has a wallet
+        if (!$user->wallet) {
+            return back()->with('error', 'You do not have a wallet associated with your account.');
+        }
 
+        // Check if the user has sufficient funds
+        if ($user->wallet->balance < $amount) {
+            return back()->with('error', 'Insufficient funds in your wallet.');
+        }
+
+        // Check if the project is still active
+        if ($project->status !== 'active') {
+            return back()->with('error', 'This project is no longer active.');
+        }
+
+        // Create the investment
         $investment = new Investment([
             'user_id' => $user->id,
             'project_id' => $project->id,
             'amount' => $amount,
         ]);
-
         $investment->save();
 
+        // Update the user's wallet balance
         $user->wallet->balance -= $amount;
         $user->wallet->save();
 
+        // Update the project's current amount
         $project->current_amount += $amount;
         $project->save();
 
-        return redirect()->route('investor.project',$project->id)->with('success', 'Investment successful!');
+        return redirect()->route('investor.project', $project->id)->with('success', 'Investment successful!');
     }
 }

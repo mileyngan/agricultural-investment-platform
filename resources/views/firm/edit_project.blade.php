@@ -1,6 +1,10 @@
 <!-- resources/views/firm/edit_project.blade.php -->
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('content')
 <div class="container">
     <h2>Edit Project: {{ $project->title }}</h2>
